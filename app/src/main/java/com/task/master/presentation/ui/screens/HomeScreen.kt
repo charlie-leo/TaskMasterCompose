@@ -48,7 +48,7 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.task.master.R
-import com.task.master.extensions.ItimFont
+import com.task.master.utils.extensions.ItimFont
 import com.task.master.presentation.dialog.AddTaskDialog
 import com.task.master.presentation.dialog.ViewTaskDialog
 import com.task.master.presentation.ui.events.HomeUiEvents

@@ -22,7 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
-import com.task.master.extensions.ItimFont
+import com.task.master.utils.extensions.ItimFont
 import com.task.master.ui.theme.PrimaryColor
 import com.task.master.ui.theme.PrimaryLightColor
 import com.task.master.ui.theme.ProgressChecked

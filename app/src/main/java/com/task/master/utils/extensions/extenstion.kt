@@ -1,4 +1,4 @@
-package com.task.master.extensions
+package com.task.master.utils.extensions
 
 import android.media.Image
 import androidx.compose.ui.text.font.Font

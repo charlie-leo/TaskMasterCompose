@@ -73,7 +73,7 @@ import androidx.constraintlayout.compose.Dimension
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.task.master.R
-import com.task.master.extensions.ItimFont
+import com.task.master.utils.extensions.ItimFont
 import com.task.master.presentation.common.ThemeImageView
 import com.task.master.presentation.common.ThemeOutlineTextField
 import com.task.master.presentation.common.ThemePrimaryButton
