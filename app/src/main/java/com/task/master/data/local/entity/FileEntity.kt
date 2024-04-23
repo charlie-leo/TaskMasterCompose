@@ -22,7 +22,7 @@ import androidx.room.PrimaryKey
     )
 data class FileEntity (
     @PrimaryKey (autoGenerate = true)
-    val fileId : Long,
-    val taskId : Long,
+    val fileId : Long = 0,
+    var taskId : Long = 0,
     val fileUri: String
 )

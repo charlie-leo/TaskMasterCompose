@@ -1,6 +1,7 @@
 package com.task.master.data.repository.datasource
 
 import com.task.master.data.local.entity.TaskEntity
+import com.task.master.data.local.entity.TaskWithFiles
 import com.task.master.data.model.Tasks
 import com.task.master.utils.TaskResult
 import kotlinx.coroutines.flow.Flow
@@ -21,7 +22,7 @@ interface HomeDataSource {
     ) : Long
 
     suspend fun getCompletedTasks() : Flow<List<TaskEntity>>
-    suspend fun getTasks() : Flow<List<TaskEntity>>
+    suspend fun getTasks() : Flow<List<TaskWithFiles>>
 
     suspend fun getAllTasks() : Flow<List<TaskEntity>>
 

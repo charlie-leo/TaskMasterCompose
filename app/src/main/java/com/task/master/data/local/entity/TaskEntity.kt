@@ -27,7 +27,7 @@ data class TaskEntity(
 
     @ColumnInfo(name = "taskCompleted")
     val taskCompleted: Int = 0,
-
+//
 //    @Relation(
 //        parentColumn = "taskId",
 //        entityColumn = "taskId"

@@ -2,6 +2,7 @@ package com.task.master.data.repository.datasourceImpl
 
 import com.task.master.data.local.dao.TaskDao
 import com.task.master.data.local.entity.TaskEntity
+import com.task.master.data.local.entity.TaskWithFiles
 import com.task.master.data.local.repository.TaskRepository
 import com.task.master.data.model.Tasks
 import com.task.master.data.repository.datasource.HomeDataSource
@@ -30,7 +31,7 @@ class HomeDataSourceImpl(
         return taskRepository.getCompletedTasksWithFiles()
     }
 
-    override suspend fun getTasks(): Flow<List<TaskEntity>> {
+    override suspend fun getTasks(): Flow<List<TaskWithFiles>> {
         return taskRepository.getTasks()
     }
 

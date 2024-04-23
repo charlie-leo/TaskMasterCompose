@@ -1,6 +1,7 @@
 package com.task.master.data.repository.repoImpl
 
 import com.task.master.data.local.entity.TaskEntity
+import com.task.master.data.local.entity.TaskWithFiles
 import com.task.master.data.model.Tasks
 import com.task.master.data.repository.datasource.HomeDataSource
 import com.task.master.data.repository.datasourceImpl.HomeDataSourceImpl
@@ -47,7 +48,7 @@ class HomeRepositoryImpl(
     ) {
         val result =  homeDataSource.getCompletedTasks()
         result.collect { tasks->
-            resultListCallback(entityToDataList(tasks))
+//            resultListCallback(entityToDataList(tasks))
         }
     }
 
@@ -65,23 +66,24 @@ class HomeRepositoryImpl(
     ) {
         val result =  homeDataSource.getAllTasks()
         result.collect { tasks->
-            resultListCallback(entityToDataList(tasks))
+//            resultListCallback(entityToDataList(tasks))
         }
     }
 
-    private fun entityToDataList(tasks: List<TaskEntity>): TaskResult<List<Tasks>> {
+    private fun entityToDataList(tasks: List<TaskWithFiles>): TaskResult<List<Tasks>> {
         val list: MutableList<Tasks> = mutableListOf()
         tasks.forEach { entity ->
+            val taskEntity = entity.taskEntity
             list.add(
                 Tasks(
-                    id = entity.taskId,
-                    taskName = entity.taskName,
-                    taskDetail = entity.taskDetail,
-                    taskEndDate = entity.taskEndDate,
-                    taskFiles = mutableListOf()
-//                    taskFiles = entity.taskFiles.stream().map {
-//                        it.fileUri
-//                    }.collect(Collectors.toList())
+                    id = taskEntity.taskId,
+                    taskName = taskEntity.taskName,
+                    taskDetail = taskEntity.taskDetail,
+                    taskEndDate = taskEntity.taskEndDate,
+//                    taskFiles = mutableListOf()
+                    taskFiles = entity.taskFiles.stream().map {
+                        it.fileUri
+                    }.collect(Collectors.toList())
                 )
             )
         }
