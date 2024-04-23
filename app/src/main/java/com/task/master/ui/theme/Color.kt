@@ -17,11 +17,13 @@ val Pink40 = Color(0xFFFFF6E5)
 
 val ProgressGreen = Color(0xFF4DE66E)
 
+
 val ProgressRed = Color(0xFFFE0000)
 
 val ProgressTrack = Color(0xFF6C6152)
 
 val ProgressChecked = Color(0xFF7B7770)
 
+val ButtonGreen = Color(0xFF1FA23B)
 
 

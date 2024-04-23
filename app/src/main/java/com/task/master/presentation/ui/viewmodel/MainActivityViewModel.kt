@@ -21,21 +21,14 @@ import javax.inject.Inject
 @HiltViewModel
 class MainActivityViewModel @Inject constructor() : ViewModel() {
 
+    private val TAG = "MainActivityViewModel"
+
     private val _homeUiState = MutableStateFlow(HomeUiState())
     val homeUiState: StateFlow<HomeUiState> = _homeUiState.asStateFlow()
 
 
     init {
 
-//        val taskList =
-//            mutableListOf<Tasks>(
-//                Tasks(id = 1, "Need To put the trash out by today","","", mutableListOf()),
-//                Tasks(id = 2, "Need To put clean the house.","","", mutableListOf()),
-//                Tasks(id = 3, "Go for shopping with friends","","", mutableListOf()),
-//                Tasks(id = 4, "complete the frozen food now","","", mutableListOf()),
-//                Tasks(id = 5, "Take care of the kitty,","","", mutableListOf()),
-//            )
-//        _homeUiState.value.taskList.addAll(taskList)
     }
 
     fun homeUiEvent(event: HomeUiEvents) {
@@ -49,14 +42,30 @@ class MainActivityViewModel @Inject constructor() : ViewModel() {
             is HomeUiEvents.CompleteTasks -> {
                 addCompletedTask(event.taskIndex)
             }
+            is HomeUiEvents.OpenTask -> {
+                openTaskDialog(event.task)
+            }
+            HomeUiEvents.CloseTaskDialog -> {
+                closeTaskDialog()
+            }
         }
     }
 
     private fun toggleDialog() {
-        _homeUiState.value = HomeUiState(
-            !_homeUiState.value.showDialog,
-            _homeUiState.value.taskList,
-            _homeUiState.value.completedTask)
+        _homeUiState.value = _homeUiState.value.copy(
+            showDialog = !_homeUiState.value.showDialog
+        )
+    }
+    private fun openTaskDialog(task: Tasks) {
+        _homeUiState.value = _homeUiState.value.copy(
+            openTask = !_homeUiState.value.openTask,
+            selectedTask = task
+        )
+    }
+    private fun closeTaskDialog() {
+        _homeUiState.value = _homeUiState.value.copy(
+            openTask = !_homeUiState.value.openTask
+        )
     }
     private fun addNewTask(task: Tasks) {
         val list  = _homeUiState.value.taskList
@@ -73,23 +82,26 @@ class MainActivityViewModel @Inject constructor() : ViewModel() {
 
         list.add(task)
 
-        _homeUiState.value = HomeUiState(
-            !_homeUiState.value.showDialog,
-            list,
-            _homeUiState.value.completedTask)
+        _homeUiState.value = _homeUiState.value.copy(
+            showDialog = !_homeUiState.value.showDialog,
+            taskList = list
+        )
     }
     private fun addCompletedTask(taskIndex: Int) {
-        val taskList  = _homeUiState.value.taskList
-        val completedList  = _homeUiState.value.completedTask
+        val taskList  = _homeUiState.value.taskList.toMutableList()
+        val completedList  = _homeUiState.value.completedTask.toMutableList()
+        if (taskIndex !in 0 until _homeUiState.value.taskList.size){
+            return
+        }
 
         val task = taskList[taskIndex]
         taskList.removeAt(taskIndex)
         completedList.add(task)
 
-        _homeUiState.value = HomeUiState(
-            _homeUiState.value.showDialog,
-            taskList,
-            completedList
+        _homeUiState.value = _homeUiState.value.copy(
+            openTask = false,
+            taskList = taskList,
+            completedTask = completedList
         )
     }
 

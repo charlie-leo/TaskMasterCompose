@@ -12,4 +12,6 @@ sealed interface HomeUiEvents {
     data object ToggleDialog : HomeUiEvents
     data class AddTasks(val task: Tasks): HomeUiEvents
     data class CompleteTasks(val taskIndex: Int) : HomeUiEvents
+    data class OpenTask(val task: Tasks) : HomeUiEvents
+    data object CloseTaskDialog : HomeUiEvents
 }

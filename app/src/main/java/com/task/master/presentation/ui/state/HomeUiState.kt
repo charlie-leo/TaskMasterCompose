@@ -7,9 +7,13 @@ import com.task.master.presentation.ui.screens.Tasks
  * @project TaskMaster Compose
  * @author Charles Raj
  */
+
+
 data class HomeUiState(
     val showDialog: Boolean = false,
-//    val newTasks: Tasks? = null,
+    val openTask: Boolean = false,
+    val selectedTask : Tasks? = null ,
     val taskList: MutableList<Tasks> = mutableListOf(),
     val completedTask: MutableList<Tasks> = mutableListOf()
 )
+

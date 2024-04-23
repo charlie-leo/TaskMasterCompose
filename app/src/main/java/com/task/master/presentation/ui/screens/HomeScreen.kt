@@ -1,11 +1,13 @@
 package com.task.master.presentation.ui.screens
 
+import android.util.Log
 import android.view.Window
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,7 +23,6 @@ import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
@@ -49,6 +50,7 @@ import androidx.navigation.compose.rememberNavController
 import com.task.master.R
 import com.task.master.extensions.ItimFont
 import com.task.master.presentation.dialog.AddTaskDialog
+import com.task.master.presentation.dialog.ViewTaskDialog
 import com.task.master.presentation.ui.events.HomeUiEvents
 import com.task.master.presentation.ui.viewmodel.MainActivityViewModel
 import com.task.master.ui.theme.PrimaryColor
@@ -80,7 +82,9 @@ fun HomeScreen(
     viewModel: MainActivityViewModel
 ) {
 
+
     val homeUiState by viewModel.homeUiState.collectAsState()
+
 
 
     ConstraintLayout(
@@ -130,12 +134,6 @@ fun HomeScreen(
             )
         }
 
-        Column(modifier = Modifier.fillMaxWidth()) {
-
-        }
-
-
-
         Text(text = "My Tasks",
             fontFamily = ItimFont,
             fontSize = 21.sp,
@@ -158,11 +156,17 @@ fun HomeScreen(
                 height = Dimension.fillToConstraints
             }) {
             items(homeUiState.taskList.count()) { item ->
-                TaskItem(homeUiState.taskList[item]) { checked ->
-                    if (checked) {
-                        viewModel.homeUiEvent(event = HomeUiEvents.CompleteTasks(homeUiState.taskList[item]))
+                TaskItem(
+                    homeUiState.taskList[item],
+                    onTaskCompleted = { checked ->
+                        if (checked) {
+                            viewModel.homeUiEvent(event = HomeUiEvents.CompleteTasks(item))
+                        }
+                    },
+                    onClick = {
+                        viewModel.homeUiEvent(HomeUiEvents.OpenTask(homeUiState.taskList[item]))
                     }
-                }
+                )
             }
         }
 
@@ -191,7 +195,7 @@ fun HomeScreen(
             }
         }
 
-        
+
 
         FloatingActionButton(
             containerColor = PrimaryColor,
@@ -209,13 +213,13 @@ fun HomeScreen(
         }
 
         // Show the dialog if showDialog is true
-        if (homeUiState.showDialog){
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .background(color = Color.Black.copy(alpha = 0.4f))
+        if (homeUiState.showDialog) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = Color.Black.copy(alpha = 0.4f))
             ) {
                 AddTaskDialog(
-//                    task = homeUiState.newTasks,
                     onDismissRequest = {
                         viewModel.homeUiEvent(event = HomeUiEvents.ToggleDialog)
                     },
@@ -224,49 +228,52 @@ fun HomeScreen(
                     }
                 )
             }
+        }
+
+        if (homeUiState.openTask) {
+            homeUiState.selectedTask?.let {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            color = Color.Black.copy(alpha = 0.4f)
+                        )
+                ) {
+                    ViewTaskDialog(
+                        onDismissRequest = {
+                            viewModel.homeUiEvent(HomeUiEvents.CloseTaskDialog)
+                        },
+                        task = it,
+                        onCompleteTask = {
+                            var index =
+                                viewModel.homeUiState.value.taskList.indexOf(
+                                    viewModel.homeUiState.value.selectedTask
+                                )
+                            viewModel.homeUiEvent(event = HomeUiEvents.CompleteTasks(index))
+                        })
+                }
+
+            }
 
         }
+
+
     }
 
 }
-
-
 
 
 @ReadOnlyComposable
 @Composable
 fun getDialogWindow(): Window? = (LocalView.current.parent as? DialogWindowProvider)?.window
 
-@Composable
-fun ThemeOutlineTextField(
-    value: String,
-    onValueChange: (String) -> Unit,
-    label: String,
-    placeholder: String,
-    modifier: Modifier) {
-
-    OutlinedTextField(
-        value = value,
-        onValueChange = onValueChange,
-        label = {
-            Text(text = label,
-                fontFamily = ItimFont
-            )
-        },
-        placeholder = {
-            Text(text = placeholder,
-                fontFamily = ItimFont
-            )
-        },
-        shape = RoundedCornerShape(16.dp),
-        modifier = modifier,
-    )
-}
-
-
 
 @Composable
-fun TaskItem(item: Tasks, onTaskCompleted: (Boolean) -> Unit) {
+fun TaskItem(
+    item: Tasks,
+    onTaskCompleted: (Boolean) -> Unit,
+    onClick: () -> Unit
+) {
 
     val checkedState = remember { mutableStateOf(false) }
 
@@ -285,6 +292,9 @@ fun TaskItem(item: Tasks, onTaskCompleted: (Boolean) -> Unit) {
             .padding(10.dp)
             .background(shape = RoundedCornerShape(10.dp), color = TaskBackground)
             .padding(5.dp)
+            .clickable {
+                onClick()
+            }
     ) {
 
         val (checkBox, taskText, fileIcon, filesCount, progressBar) = createRefs()
@@ -322,16 +332,16 @@ fun TaskItem(item: Tasks, onTaskCompleted: (Boolean) -> Unit) {
                     bottom.linkTo(parent.bottom)
                 })
 
-        Text(text = "2",
+        Text(text = item.taskFiles.size.toString(),
             fontFamily = ItimFont,
             fontWeight = FontWeight.Bold,
             color = Color.LightGray,
             fontSize = 14.sp,
             modifier = Modifier
                 .constrainAs(filesCount) {
-                start.linkTo(fileIcon.start)
-                bottom.linkTo(fileIcon.bottom, margin = -8.dp)
-            })
+                    start.linkTo(fileIcon.start)
+                    bottom.linkTo(fileIcon.bottom, margin = -8.dp)
+                })
 
         LinearProgressIndicator(
             progress = 0.5f,
@@ -386,7 +396,7 @@ fun CompletedTaskItem(item: Tasks) {
                 .constrainAs(checkBox) {
                     centerVerticallyTo(parent)
                 }
-                )
+        )
 
         Text(item.taskName,
             softWrap = false,
@@ -428,13 +438,14 @@ fun CompletedTaskItem(item: Tasks) {
 }
 
 
-
-
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun HomePreview() {
     val navController = rememberNavController() // Initialize NavController
     TaskMasterComposeTheme {
-        HomeScreen(navController = navController, viewModel = MainActivityViewModel()) // Pass NavController to HomeScreen
+        HomeScreen(
+            navController = navController,
+            viewModel = MainActivityViewModel()
+        ) // Pass NavController to HomeScreen
     }
 }
