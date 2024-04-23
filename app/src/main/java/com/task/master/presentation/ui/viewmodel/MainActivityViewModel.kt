@@ -2,13 +2,24 @@ package com.task.master.presentation.ui.viewmodel
 
 import android.text.TextUtils
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.task.master.data.model.Tasks
+import com.task.master.domain.usecase.AddTaskUseCase
+import com.task.master.domain.usecase.CompleteTaskUseCase
+import com.task.master.domain.usecase.GetAllTask
+import com.task.master.domain.usecase.GetCompletedTask
+import com.task.master.domain.usecase.GetTasks
 import com.task.master.presentation.ui.events.HomeUiEvents
-import com.task.master.presentation.ui.screens.Tasks
 import com.task.master.presentation.ui.state.HomeUiState
+import com.task.master.utils.TaskResult
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.lang.Exception
 import javax.inject.Inject
 
 /**
@@ -19,7 +30,13 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class MainActivityViewModel @Inject constructor() : ViewModel() {
+class MainActivityViewModel @Inject constructor(
+    private val addTaskUseCase: AddTaskUseCase,
+    private val completeTaskUseCase: CompleteTaskUseCase,
+    private val getCompletedTask: GetCompletedTask,
+    private val getTasks: GetTasks,
+    private val getAllTask: GetAllTask
+) : ViewModel() {
 
     private val TAG = "MainActivityViewModel"
 
@@ -28,6 +45,10 @@ class MainActivityViewModel @Inject constructor() : ViewModel() {
 
 
     init {
+        viewModelScope.launch (Dispatchers.IO) {
+            getTasks()
+            getCompletedTasks()
+        }
 
     }
 
@@ -67,26 +88,122 @@ class MainActivityViewModel @Inject constructor() : ViewModel() {
             openTask = !_homeUiState.value.openTask
         )
     }
-    private fun addNewTask(task: Tasks) {
+    private fun addNewTask(
+        task: Tasks
+    ) =  viewModelScope.launch (Dispatchers.IO) {
         val list  = _homeUiState.value.taskList
 
         if (TextUtils.isEmpty(task.taskName)){
-            return
+            _homeUiState.value = _homeUiState.value.copy(
+                showError = true,
+                errorMessage = "Task Name is mandatory."
+            )
+            return@launch
         }
         if (TextUtils.isEmpty(task.taskDetail)){
-            return
+            _homeUiState.value = _homeUiState.value.copy(
+                showError = true,
+                errorMessage = "Task Name is mandatory."
+            )
+            return@launch
         }
         if (TextUtils.isEmpty(task.taskEndDate)){
-            return
+            _homeUiState.value = _homeUiState.value.copy(
+                showError = true,
+                errorMessage = "Task Name is mandatory."
+            )
+            return@launch
         }
+        try {
+            addTaskUseCase.execute(task){ result ->
+                if (result is TaskResult.Success<Tasks>) {
+                    _homeUiState.value = _homeUiState.value.copy(
+                        showDialog = !_homeUiState.value.showDialog,
+                        showError = false
+                    )
+                    viewModelScope.launch {
+                        getCompletedTasks()
+                        getTasks()
+                    }
+                }
+            }
 
-        list.add(task)
 
+        } catch (e: Exception){
+            _homeUiState.value = _homeUiState.value.copy(
+                showError = true,
+                errorMessage = e.message.toString()
+            )
+        }
+    }
+
+
+    private suspend fun getCompletedTasks(){
+        showLoader()
+        withContext(Dispatchers.IO){
+            getCompletedTask.execute(){result ->
+                if (result is TaskResult.Success<List<Tasks>>) {
+                    result.data?.let {
+                        _homeUiState.value = _homeUiState.value.copy(
+                            showError = false,
+                            completedTask = it.toMutableList()
+                        )
+                    }
+                } else {
+                    result.message?.let{
+                        _homeUiState.value = _homeUiState.value.copy(
+                            showError = true,
+                            errorMessage = it
+                        )
+                    }
+                }
+                hideLoader()
+            }
+        }
+    }
+
+    private suspend fun getTasks(){
+        showLoader()
+        withContext(Dispatchers.IO){
+            getTasks.execute(){result ->
+                if (result is TaskResult.Success<List<Tasks>>) {
+                    result.data?.let {
+                        _homeUiState.value = _homeUiState.value.copy(
+                            showError = false,
+                            taskList = it.toMutableList()
+                        )
+                    }
+                } else {
+                    result.message?.let{
+                        _homeUiState.value = _homeUiState.value.copy(
+                            showError = true,
+                            errorMessage = it
+                        )
+                    }
+                }
+                hideLoader()
+            }
+
+        }
+    }
+
+    private suspend fun getAllTasks(){
+
+    }
+
+    private fun showLoader(){
         _homeUiState.value = _homeUiState.value.copy(
-            showDialog = !_homeUiState.value.showDialog,
-            taskList = list
+            showError = false,
+            loading = true
         )
     }
+    private fun hideLoader(){
+        _homeUiState.value = _homeUiState.value.copy(
+            showError = false,
+            loading = false
+        )
+    }
+
     private fun addCompletedTask(taskIndex: Int) {
         val taskList  = _homeUiState.value.taskList.toMutableList()
         val completedList  = _homeUiState.value.completedTask.toMutableList()

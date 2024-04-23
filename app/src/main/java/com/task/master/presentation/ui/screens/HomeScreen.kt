@@ -48,9 +48,10 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.task.master.R
+import com.task.master.data.model.Tasks
 import com.task.master.utils.extensions.ItimFont
-import com.task.master.presentation.dialog.AddTaskDialog
-import com.task.master.presentation.dialog.ViewTaskDialog
+import com.task.master.presentation.ui.dialog.AddTaskDialog
+import com.task.master.presentation.ui.dialog.ViewTaskDialog
 import com.task.master.presentation.ui.events.HomeUiEvents
 import com.task.master.presentation.ui.viewmodel.MainActivityViewModel
 import com.task.master.ui.theme.PrimaryColor
@@ -68,13 +69,6 @@ import com.task.master.ui.theme.shadowColor
  * @author Charles Raj
  */
 
-data class Tasks(
-    var id: Int,
-    var taskName: String,
-    var taskDetail: String,
-    var taskEndDate: String,
-    var taskFiles: MutableList<String>
-)
 
 @Composable
 fun HomeScreen(
@@ -443,9 +437,9 @@ fun CompletedTaskItem(item: Tasks) {
 fun HomePreview() {
     val navController = rememberNavController() // Initialize NavController
     TaskMasterComposeTheme {
-        HomeScreen(
-            navController = navController,
-            viewModel = MainActivityViewModel()
-        ) // Pass NavController to HomeScreen
+//        HomeScreen(
+//            navController = navController,
+//            viewModel = MainActivityViewModel()
+//        ) // Pass NavController to HomeScreen
     }
 }

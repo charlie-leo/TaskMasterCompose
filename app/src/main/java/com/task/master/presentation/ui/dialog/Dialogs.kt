@@ -1,4 +1,4 @@
-package com.task.master.presentation.dialog
+package com.task.master.presentation.ui.dialog
 
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -73,11 +73,11 @@ import androidx.constraintlayout.compose.Dimension
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.task.master.R
+import com.task.master.data.model.Tasks
 import com.task.master.utils.extensions.ItimFont
 import com.task.master.presentation.common.ThemeImageView
 import com.task.master.presentation.common.ThemeOutlineTextField
 import com.task.master.presentation.common.ThemePrimaryButton
-import com.task.master.presentation.ui.screens.Tasks
 import com.task.master.ui.theme.ButtonGreen
 import com.task.master.ui.theme.PrimaryColor
 import com.task.master.ui.theme.PrimaryLightColor

@@ -28,10 +28,10 @@ data class TaskEntity(
     @ColumnInfo(name = "taskCompleted")
     val taskCompleted: Int = 0,
 
-    @Relation(
-        parentColumn = "taskId",
-        entityColumn = "taskId"
-    )
-    val taskFiles: List<FileEntity>
+//    @Relation(
+//        parentColumn = "taskId",
+//        entityColumn = "taskId"
+//    )
+//    val taskFiles: List<FileEntity>
 
 )

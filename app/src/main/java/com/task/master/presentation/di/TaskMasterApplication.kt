@@ -1,4 +1,4 @@
-package com.task.master.di
+package com.task.master.presentation.di
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

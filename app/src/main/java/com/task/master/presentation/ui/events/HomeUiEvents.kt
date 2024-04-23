@@ -1,6 +1,7 @@
 package com.task.master.presentation.ui.events
 
-import com.task.master.presentation.ui.screens.Tasks
+import com.task.master.data.model.Tasks
+
 
 /**
  * Created by Charles Raj I on 22/04/24
