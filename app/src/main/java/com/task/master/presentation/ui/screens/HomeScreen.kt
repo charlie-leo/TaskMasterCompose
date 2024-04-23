@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.Window
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -33,8 +34,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -386,7 +389,28 @@ fun CompletedTaskItem(item: Tasks) {
             .padding(5.dp)
     ) {
 
-        val (checkBoxRow, checkBox, taskText, fileIcon, filesCount, progressBar) = createRefs()
+        val (cancelLine, checkBox, taskText, fileIcon, filesCount, progressBar) = createRefs()
+
+
+        Canvas(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(5.dp)
+                .padding(horizontal = 8.dp)
+                .constrainAs(cancelLine) {
+                    centerVerticallyTo(parent)
+                }
+        ) {
+            drawLine(
+                color = ProgressChecked,
+                start = Offset(0f, size.height),
+                end = Offset(size.width, size.height),
+                strokeWidth = 3.dp.toPx(),
+                cap = StrokeCap.Round
+            )
+        }
+
+
 
         Checkbox(checked = checkedState.value,
             onCheckedChange = { checkedState.value = it },
