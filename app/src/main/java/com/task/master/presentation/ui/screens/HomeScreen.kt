@@ -123,7 +123,10 @@ fun HomeScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .shadow(
-                        clip = true, elevation = 69.dp, shape = CircleShape, spotColor = shadowColor
+                        clip = true,
+                        elevation = 69.dp,
+                        shape = CircleShape,
+                        spotColor = shadowColor
                     )
             )
         }

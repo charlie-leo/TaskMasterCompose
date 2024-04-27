@@ -127,12 +127,6 @@ fun AddTaskDialog(
     ) {
 
 
-//        val dialogWindow = getDialogWindow()
-//        dialogWindow.let { window ->
-//            window?.setDimAmount(0.5f)
-//            window?.setWindowAnimations(-1)
-//        }
-
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxWidth()
