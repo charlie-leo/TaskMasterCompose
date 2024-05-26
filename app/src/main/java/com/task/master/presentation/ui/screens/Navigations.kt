@@ -1,13 +1,20 @@
 package com.task.master.presentation.ui.screens
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import com.task.master.presentation.common.ThemePrimaryButton
 import com.task.master.presentation.ui.activities.SplashScreen
 import com.task.master.presentation.ui.viewmodel.MainActivityViewModel
+import kotlinx.serialization.Serializable
 
 /**
  * Created by Charles Raj I on 14/04/24
@@ -22,6 +29,16 @@ object Navigations {
     var HOME_SCREEN = "homeScreen"
 }
 
+@Serializable
+data class FirstClassNavigation(
+    val id : Int = 0
+){}
+
+@Serializable
+data class SecondClassNavigation(
+    val id : Int = 0
+){}
+
 @Composable
 fun Onboarding(mainViewModel: MainActivityViewModel) {
 
@@ -29,7 +46,7 @@ fun Onboarding(mainViewModel: MainActivityViewModel) {
 
     NavHost(
         navController = navController,
-        startDestination = Navigations.SPLASH_SCREEN
+        startDestination = FirstClassNavigation(id = 0)
     )
     {
         composable(Navigations.SPLASH_SCREEN) {
@@ -50,7 +67,42 @@ fun Onboarding(mainViewModel: MainActivityViewModel) {
                 viewModel = mainViewModel
             )
         }
-        // Add more destinations as needed
+
+
+        composable<FirstClassNavigation> {
+            val data = it.toRoute<FirstClassNavigation>()
+
+            Column(
+                modifier = Modifier.fillMaxSize()
+            ) {
+
+                Text(text = data.id.toString())
+                ThemePrimaryButton(text = "First Screen", onClick = {
+                    navController.navigate(
+                        SecondClassNavigation(id = 1)
+                    )
+                })
+            }
+        }
+
+        composable<SecondClassNavigation> {
+
+            val data = it.toRoute<SecondClassNavigation>()
+
+            Column(
+                modifier = Modifier.fillMaxSize()
+            ) {
+
+                Text(text = data.id.toString())
+                ThemePrimaryButton(text = "Second Screen", onClick = {
+                    navController.navigate(
+                        FirstClassNavigation(id = 3)
+                    )
+                })
+            }
+
+        }
+
     }
 }
 

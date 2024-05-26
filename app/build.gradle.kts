@@ -4,7 +4,9 @@ plugins {
 //    kotlin("kapt")
     id("kotlin-android")
     id("dagger.hilt.android.plugin")
-    id("com.google.devtools.ksp")
+    id("com.google.devtools.ksp" )
+    kotlin("plugin.serialization") version "1.9.24"
+
 }
 
 android {
@@ -81,6 +83,8 @@ dependencies {
     ksp("androidx.room:room-compiler:$room_version")
 
     implementation("androidx.room:room-ktx:$room_version")
+
+    implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
