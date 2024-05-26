@@ -46,7 +46,7 @@ fun Onboarding(mainViewModel: MainActivityViewModel) {
 
     NavHost(
         navController = navController,
-        startDestination = FirstClassNavigation(id = 0)
+        startDestination = Navigations.HOME_SCREEN
     )
     {
         composable(Navigations.SPLASH_SCREEN) {

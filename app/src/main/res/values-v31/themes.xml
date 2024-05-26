@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.TaskMasterCompose" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowSplashScreenBackground">#FFFFF6E5</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/tm_logo</item>
+        <item name="android:windowSplashScreenAnimationDuration">300</item>
+<!--        <item name="android:windowSplashScreenBrandingImage">@drawable/file_icon</item>-->
+    </style>
+</resources>
