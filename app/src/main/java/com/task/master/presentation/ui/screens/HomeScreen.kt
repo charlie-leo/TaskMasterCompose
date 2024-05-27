@@ -1,9 +1,6 @@
 package com.task.master.presentation.ui.screens
 
-import android.util.Log
 import android.view.Window
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -73,7 +70,8 @@ import com.task.master.ui.theme.shadowColor
 @Composable
 fun HomeScreen(
     navController: NavController,
-    viewModel: MainActivityViewModel
+    viewModel: MainActivityViewModel,
+    type: String
 ) {
 
 
@@ -210,7 +208,7 @@ fun HomeScreen(
         }
 
         // Show the dialog if showDialog is true
-        if (homeUiState.showDialog) {
+        if (homeUiState.showDialog || type == "Create") {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -227,7 +225,7 @@ fun HomeScreen(
             }
         }
 
-        if (homeUiState.openTask) {
+        if (homeUiState.openTask || type == "View" ) {
             homeUiState.selectedTask?.let {
                 Box(
                     modifier = Modifier

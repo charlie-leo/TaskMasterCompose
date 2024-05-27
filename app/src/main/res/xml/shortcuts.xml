@@ -1,0 +1,50 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <shortcut
+        android:shortcutId="shortcut_1"
+        android:enabled="true"
+        android:icon="@drawable/tm_logo"
+        android:shortcutShortLabel="@string/ShortCutShortLabel_1"
+        android:shortcutLongLabel="@string/ShortCutLongLabel_1"
+        android:shortcutDisabledMessage="@string/ShortCutDisableLabel_1"
+        >
+
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.task.master"
+            android:targetClass="com.task.master.presentation.ui.activities.MainActivity"
+            >
+                <extra
+                    android:name="Type"
+                    android:value="Create"
+                    />
+        </intent>
+        <categories android:name="android.shortcut.conversation"/>
+        <capability-binding android:key="action.intent.CREATE_MESSAGE"/>
+    </shortcut>
+
+<!--    <shortcut-->
+<!--        android:shortcutId="shortcut_2"-->
+<!--        android:enabled="true"-->
+<!--        android:icon="@drawable/file_icon"-->
+<!--        android:shortcutShortLabel="@string/ShortCutShortLabel_2"-->
+<!--        android:shortcutLongLabel="@string/ShortCutLongLabel_2"-->
+<!--        android:shortcutDisabledMessage="@string/ShortCutDisableLabel_2"-->
+<!--        >-->
+
+<!--        <intent-->
+<!--            android:action="android.intent.action.VIEW"-->
+<!--            android:targetPackage="com.task.master"-->
+<!--            android:targetClass="com.task.master.presentation.ui.activities.MainActivity"-->
+<!--            >-->
+<!--            <extra-->
+<!--                android:name="Type"-->
+<!--                android:value="View"-->
+<!--                />-->
+<!--        </intent>-->
+<!--        <categories android:name="android.shortcut.conversation"/>-->
+<!--        <capability-binding android:key="action.intent.CREATE_MESSAGE"/>-->
+<!--    </shortcut>-->
+
+</shortcuts>
+

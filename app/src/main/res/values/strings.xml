@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">TaskMaster Compose</string>
+
+    <string name="ShortCutShortLabel_1">Create Task</string>
+    <string name="ShortCutLongLabel_1">Create Task</string>
+    <string name="ShortCutDisableLabel_1">Create Task Disable</string>
+
+    <string name="ShortCutShortLabel_2">View Task</string>
+    <string name="ShortCutLongLabel_2">View Task</string>
+    <string name="ShortCutDisableLabel_2">View Task Disable</string>
+
+
 </resources>

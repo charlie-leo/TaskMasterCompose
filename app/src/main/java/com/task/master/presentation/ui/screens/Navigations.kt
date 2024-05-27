@@ -12,7 +12,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.task.master.presentation.common.ThemePrimaryButton
-import com.task.master.presentation.ui.activities.SplashScreen
 import com.task.master.presentation.ui.viewmodel.MainActivityViewModel
 import kotlinx.serialization.Serializable
 
@@ -40,7 +39,7 @@ data class SecondClassNavigation(
 ){}
 
 @Composable
-fun Onboarding(mainViewModel: MainActivityViewModel) {
+fun Onboarding(mainViewModel: MainActivityViewModel, type: String) {
 
     val navController = rememberNavController()
 
@@ -49,16 +48,17 @@ fun Onboarding(mainViewModel: MainActivityViewModel) {
         startDestination = Navigations.HOME_SCREEN
     )
     {
-        composable(Navigations.SPLASH_SCREEN) {
-            SplashScreen(
-                navController,
-                viewModel = mainViewModel
-            )
-        }
+//        composable(Navigations.SPLASH_SCREEN) {
+//            SplashScreen(
+//                navController,
+//                viewModel = mainViewModel
+//            )
+//        }
         composable(Navigations.HOME_SCREEN) {
             HomeScreen(
                 navController = navController,
-                viewModel = mainViewModel
+                viewModel = mainViewModel,
+                type
             )
         }
         composable(Navigations.LOGIN_SCREEN) {

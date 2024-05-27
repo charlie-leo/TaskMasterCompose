@@ -76,7 +76,8 @@ dependencies {
 
     implementation("androidx.core:core-splashscreen:1.0.1")
 
-
+    implementation ("androidx.core:core:1.13.1")
+    implementation ("androidx.core:core-google-shortcuts:1.1.0")
 
     val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")
