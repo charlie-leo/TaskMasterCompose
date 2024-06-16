@@ -1,11 +1,12 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-//    kotlin("kapt")
+    kotlin("kapt")
     id("kotlin-android")
     id("dagger.hilt.android.plugin")
     id("com.google.devtools.ksp" )
     kotlin("plugin.serialization") version "1.9.24"
+    id ("realm-android")
 
 }
 
@@ -78,6 +79,10 @@ dependencies {
 
     implementation ("androidx.core:core:1.13.1")
     implementation ("androidx.core:core-google-shortcuts:1.1.0")
+
+
+    implementation ("com.google.accompanist:accompanist-pager:0.28.0")
+    implementation ("com.google.accompanist:accompanist-pager-indicators:0.28.0")
 
     val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")

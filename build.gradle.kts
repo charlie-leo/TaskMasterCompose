@@ -14,5 +14,7 @@ buildscript {
     dependencies {
         classpath(libs.hilt.android.gradle.plugin)
         classpath ("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.23")
+        classpath("com.android.tools.build:gradle:8.0.2")
+        classpath ("io.realm:realm-gradle-plugin:10.15.1")
     }
 }

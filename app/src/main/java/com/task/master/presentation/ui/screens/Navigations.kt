@@ -55,11 +55,14 @@ fun Onboarding(mainViewModel: MainActivityViewModel, type: String) {
 //            )
 //        }
         composable(Navigations.HOME_SCREEN) {
-            HomeScreen(
-                navController = navController,
-                viewModel = mainViewModel,
-                type
-            )
+//            HomeScreen(
+//                navController = navController,
+//                viewModel = mainViewModel,
+//                type
+//            )
+
+            BottomNavigationScreen()
+
         }
         composable(Navigations.LOGIN_SCREEN) {
             LoginScreen(
