@@ -16,6 +16,7 @@ roomRuntime = "2.6.1"
 roomRuntimeVersion = "2.4.0"
 navigationCompose = "2.8.0-beta01"
 constraintlayout = "2.1.4"
+jetbrainsKotlinJvm = "1.9.23"
 
 [libraries]
 androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraintlayoutCompose" }
@@ -48,5 +49,6 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 
 

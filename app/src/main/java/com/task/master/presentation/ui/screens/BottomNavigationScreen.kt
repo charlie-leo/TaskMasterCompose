@@ -25,11 +25,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
-import com.task.master.ui.theme.TaskMasterComposeTheme
+
 import kotlinx.coroutines.launch
 
 /**
@@ -73,10 +72,7 @@ fun BottomNavigationScreen() {
                 2 -> ScreenOne(paddingValues, Color.Green)
                 3 -> ScreenOne(paddingValues, Color.Magenta)
             }
-
         }
-
-
     }
 }
 
@@ -87,6 +83,7 @@ fun BottomNavigationBar(
     currentRoute: Int,
     onItemClick: (Int) -> Unit
 ) {
+
     NavigationBar {
         items.forEachIndexed { index, item ->
             NavigationBarItem(
