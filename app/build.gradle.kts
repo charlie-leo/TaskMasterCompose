@@ -85,6 +85,7 @@ dependencies {
     implementation ("com.google.accompanist:accompanist-pager-indicators:0.28.0")
 
     implementation(project(":samplelib"))
+    implementation(project(":TaskMath"))
 
     val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")

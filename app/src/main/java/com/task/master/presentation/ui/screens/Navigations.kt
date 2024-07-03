@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.comuni.taskmath.TaskMath
 import com.task.master.presentation.common.ThemePrimaryButton
 import com.task.master.presentation.ui.viewmodel.MainActivityViewModel
 import kotlinx.serialization.Serializable
@@ -78,6 +79,11 @@ fun Onboarding(mainViewModel: MainActivityViewModel, type: String) {
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
+                val taskMath = TaskMath()
+
+                taskMath.add(1,2)
+                taskMath.sub(1,4,)
+                taskMath.multply(4,8)
 
                 Text(text = data.id.toString())
                 ThemePrimaryButton(text = "First Screen", onClick = {

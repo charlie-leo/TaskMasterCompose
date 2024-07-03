@@ -23,3 +23,4 @@ dependencyResolutionManagement {
 rootProject.name = "TaskMaster Compose"
 include(":app")
 include(":samplelib")
+include(":TaskMath")

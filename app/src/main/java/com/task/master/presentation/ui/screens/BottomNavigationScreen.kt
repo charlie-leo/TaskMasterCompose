@@ -1,18 +1,28 @@
 package com.task.master.presentation.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -58,12 +69,19 @@ fun BottomNavigationScreen() {
                     pagerState.animateScrollToPage(page)
                 }
             }
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = {
+
+            }) {
+                Icon(imageVector = Icons.Filled.Star, contentDescription = "Add")
+            }
         }
     ) { paddingValues ->
 
         HorizontalPager(count = items.size,
             state = pagerState,
-            modifier = Modifier.padding(paddingValues)
+            modifier = Modifier.padding()
         ) { page ->
 
             when (page) {
@@ -84,14 +102,33 @@ fun BottomNavigationBar(
     onItemClick: (Int) -> Unit
 ) {
 
-    NavigationBar {
+    NavigationBar(
+        containerColor = Color.Black,
+        contentColor = Color.White,
+        tonalElevation = 5.dp,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp)
+            .background(shape = RoundedCornerShape(10.dp), color = Color.Transparent)
+            .padding(10.dp)
+            .background(shape = RoundedCornerShape(10.dp), color = Color.Black)
+            .padding(2.dp),
+    ) {
         items.forEachIndexed { index, item ->
             NavigationBarItem(
                 icon = { Icon(imageVector = item.icon, contentDescription = item.title) },
                 label = { Text(text = item.title) },
                 alwaysShowLabel = currentRoute == index,
                 selected = currentRoute == index,
-                onClick = { onItemClick(index) }
+                onClick = { onItemClick(index) },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = Color.White,
+                    selectedTextColor = Color.White,
+                    unselectedIconColor = Color.White.copy(alpha = 0.4f),
+                    unselectedTextColor = Color.White.copy(alpha = 0.4f),
+                    indicatorColor = Color.Transparent
+                )
+
             )
         }
     }
@@ -106,11 +143,9 @@ data class BottomNavItem(
 @Composable
 fun ScreenOne(paddingValues: PaddingValues, color: Color) {
 
-
-
     Column (modifier = Modifier
         .fillMaxSize()
-        .padding(paddingValues.calculateBottomPadding())
+        .padding()
         .background(color = color)) {
 
     }
